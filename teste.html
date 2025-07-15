@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bifrost - Animações GSAP</title>
+    <link rel="icon" href="https://i.ibb.co/F4mK31Cg/Bifrost-Ideia-3.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        /* Reset e Estilos Gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #9b59b6;
+            --dark-color: #1a2530;
+            --light-color: #ecf0f1;
+            --gradient-start: #3498db;
+            --gradient-end: #9b59b6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: rgba(26, 37, 48, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo__header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo__header p {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            text-align: right;
+            margin-top: -5px;
+        }
+
+        nav a {
+            color: var(--light-color);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--secondary-color);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        #burger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background: var(--light-color);
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .container__hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content__hero {
+            text-align: center;
+            max-width: 800px;
+            z-index: 2;
+        }
+
+        .title__hero h2 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .text__hero {
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+            color: #bdc3c7;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn__hero {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn__hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+            z-index: -1;
+        }
+
+        .btn__hero:hover::before {
+            left: 100%;
+        }
+
+        .btn__hero:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.4);
+        }
+
+        .home-hero__mouse-scroll-cont {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .mouse {
+            width: 25px;
+            height: 40px;
+            border: 2px solid var(--light-color);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .mouse::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            width: 4px;
+            height: 8px;
+            background: var(--light-color);
+            border-radius: 2px;
+            transform: translateX(-50%);
+            animation: scroll 1.5s infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, 10px);
+                opacity: 0;
+            }
+        }
+
+        /* Vision & Timeline */
+        .vision-timeline {
+            display: flex;
+            padding: 120px 5%;
+            background-color: var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vision {
+            flex: 1;
+            padding-right: 60px;
+        }
+
+        .vision h2 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .vision h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            font-weight: 600;
+            line-height: 1.3;
+            color: #ecf0f1;
+        }
+
+        .timeline {
+            flex: 2;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end));
+            border-radius: 2px;
+        }
+
+        .milestone {
+            position: relative;
+            margin-bottom: 50px;
+            padding: 25px;
+            background: rgba(44, 62, 80, 0.7);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-origin: left;
+        }
+
+        .milestone::before {
+            content: '';
+            position: absolute;
+            top: 35px;
+            left: -42px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            border: 4px solid var(--dark-color);
+        }
+
+        .milestone__date {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .milestone__title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--light-color);
+        }
+
+        .milestone__desc {
+            color: #bdc3c7;
+            line-height: 1.6;
+        }
+
+        .milestone.future {
+            background: rgba(155, 89, 182, 0.1);
+            border: 1px solid rgba(155, 89, 182, 0.3);
+        }
+
+        /* Protocols Section */
+        .protocols__container {
+            padding: 120px 5%;
+            background-color: var(--dark-color);
+        }
+
+        .protocols__title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 70px;
+            position: relative;
+        }
+
+        .protocols__title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 2px;
+        }
+
+        .grid__protocols {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .card__protocol {
+            background: rgba(44, 62, 80, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .card__protocol:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .card__header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card__header img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-right: 15px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px;
+        }
+
+        .card__header h3 {
+            font-size: 1.5rem;
+            color: var(--light-color);
+        }
+
+        .card__protocol p {
+            margin-bottom: 25px;
+            color: #bdc3c7;
+        }
+
+        .btn__card {
+            display: inline-block;
+            padding: 10px 25px;
+            background: rgba(52, 152, 219, 0.2);
+            color: var(--light-color);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: background 0.3s ease;
+            border: 1px solid rgba(52, 152, 219, 0.5);
+        }
+
+        .btn__card:hover {
+            background: rgba(52, 152, 219, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--primary-color);
+            padding: 70px 5% 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer__inner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1300px;
+            margin: 0 auto 50px;
+        }
+
+        .footer__brand img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+
+        .footer__nav h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--light-color);
+            position: relative;
+        }
+
+        .footer__nav h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 2px;
+        }
+
+        .footer__nav ul {
+            list-style: none;
+        }
+
+        .footer__nav li {
+            margin-bottom: 12px;
+        }
+
+        .footer__nav a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer__nav a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer__contact h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer__contact h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 2px;
+        }
+
+        .social {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-color);
+            font-size: 1.1rem;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .social a:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+        }
+
+        address {
+            font-style: normal;
+            color: #bdc3c7;
+            line-height: 1.6;
+        }
+
+        .footer__bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 1300px;
+            margin: 0 auto;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .footer__status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .footer__status::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #e74c3c;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Background Elements */
+        .bg-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-element {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.2;
+        }
+
+        .bg-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--gradient-start);
+            top: -100px;
+            right: -100px;
+        }
+
+        .bg-2 {
+            width: 600px;
+            height: 600px;
+            background: var(--accent-color);
+            bottom: -200px;
+            left: -150px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .vision-timeline {
+                flex-direction: column;
+            }
+
+            .vision {
+                padding-right: 0;
+                margin-bottom: 50px;
+            }
+
+            .timeline {
+                padding-left: 30px;
+            }
+
+            .title__hero h2 {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(26, 37, 48, 0.95);
+                padding: 20px;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav.active {
+                display: flex;
+            }
+
+            nav a {
+                margin: 10px 0;
+            }
+
+            #burger {
+                display: block;
+            }
+
+            #burger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            #burger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            #burger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .title__hero h2 {
+                font-size: 2.8rem;
+            }
+
+            .text__hero {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .title__hero h2 {
+                font-size: 2.3rem;
+            }
+
+            .footer__bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Elements -->
+    <div class="bg-elements">
+        <div class="bg-element bg-1"></div>
+        <div class="bg-element bg-2"></div>
+    </div>
+
+    <header>
+        <div class="logo__header">
+            <h1>Bifrost</h1>
+            <p>Pre-alpha</p>
+        </div>
+        <button id="burger" aria-label="Open menu">
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </button>
+        <nav>
+            <a href="#">Getting Started</a>
+            <a href="#">Documentation</a>
+            <a href="#">GitHub</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="container__hero">
+            <div class="content__hero">
+                <div class="title__hero">
+                    <h2>One Bridge <br> Infinite <span id="animated-text" class="gradient-text"></span></h2>
+                </div>
+                <p class="text__hero">Open-source communication bridge for IoT devices. <br> Built
+                    to unify protocols
+                    and expand
+                    connectivity.
+                </p>
+                <a href="https://github.com/the-bifrost" class="btn__hero">See more!</a>
+            </div>
+            <div class="home-hero__mouse-scroll-cont">
+                <div class="mouse"></div>
+            </div>
+        </section>
+        <section class="vision-timeline">
+
+            <!-- LEFT COLUMN – Vision -->
+            <div class="vision">
+                <h2>Our vision</h2>
+                <p class="subtitle">
+                    Connecting every device,<br />
+                    across every protocol,<br />
+                    with one open bridge.
+                </p>
+            </div>
+
+            <!-- RIGHT COLUMN – Timeline -->
+            <div class="timeline">
+                <!-- single milestone -->
+                <div class="milestone">
+                    <span class="milestone__date">May 2024</span>
+                    <h3 class="milestone__title">Born from a real need</h3>
+                    <p class="milestone__desc">
+                        While working on a home automation project, we needed to connect several ESP boards
+                        communicating via ESP-NOW to an MQTT network. From this challenge, the concept of a
+                        universal
+                        bridge—Bifrost—was born.
+                    </p>
+                </div>
+
+                <div class="milestone">
+                    <span class="milestone__date">July 2024</span>
+                    <h3 class="milestone__title">First attempts and early code</h3>
+                    <p class="milestone__desc">
+                        The first prototype was a simple script aiming to bridge ESP-NOW and MQTT. Although it
+                        didn’t
+                        work as expected, it marked the beginning of Bifrost’s development and helped us identify
+                        key
+                        technical challenges.
+                    </p>
+                </div>
+
+
+                <div class="milestone">
+                    <span class="milestone__date">May 2025</span>
+                    <h3 class="milestone__title">Project revival</h3>
+                    <p class="milestone__desc">
+                        After months on hold, Bifrost was revived with the opportunity to be showcased at our
+                        university's Research Expo. This milestone brought new motivation and led to major
+                        improvements
+                        in the project.
+                    </p>
+                </div>
+
+
+                <div class="milestone">
+                    <span class="milestone__date">June 2025</span>
+                    <h3 class="milestone__title">Functional prototype with Raspberry Pi</h3>
+                    <p class="milestone__desc">
+                        First working prototype integrates an ESP32 and a Raspberry Pi via serial. This enabled data
+                        processing, database storage, and reliable bridging between ESP-NOW and MQTT.
+                    </p>
+                </div>
+
+
+                <div class="milestone future">
+                    <span class="milestone__date">Future</span>
+                    <h3 class="milestone__title">Unified gateway & full protocol mesh</h3>
+                    <p class="milestone__desc">
+                        Our goal is to build a seamless gateway combining LoRa, Zigbee, ESP-NOW, and MQTT—enabling
+                        two-way communication across protocols, local automation, and complete data control with an
+                        integrated database.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+        <section class="protocols__container">
+            <h2 class="protocols__title">Protocols</h2>
+
+            <div class="grid__protocols">
+
+                <!-- ESP-NOW -->
+                <article class="card__protocol">
+                    <header class="card__header">
+                        <img src="https://camo.githubusercontent.com/cccdf0eaab8b94b1bd5aee1c4b77b1045a2390d839ecd33f068b274f4824f0bc/68747470733a2f2f676e64746f7663632e686f6d652e626c6f672f77702d636f6e74656e742f75706c6f6164732f323032302f30342f322e312d312e706e673f773d363430"
+                            alt="ESP-NOW logo" />
+                        <h3>ESP-NOW</h3>
+                    </header>
+                    <p>A protocol developed by Espressif for direct device-to-device communication over Wi-Fi,
+                        without
+                        the need for routers. Ideal for fast mesh networks with low power consumption.</p>
+                    <a class="btn__card">See more!</a>
+                </article>
+
+                <!-- MQTT -->
+                <article class="card__protocol">
+                    <header class="card__header">
+                        <img src="https://github.com/mqtt/mqttorg-graphics/blob/master/png/mqtt-icon-transparent.png?raw=true"
+                            alt="MQTT logo" />
+                        <h3>MQTT</h3>
+                    </header>
+                    <p>A lightweight publish/subscribe protocol designed for IoT. It uses a broker to manage and
+                        route
+                        messages between connected devices efficiently.</p>
+                    <a class="btn__card">See more!</a>
+                </article>
+
+                <!-- LoRa -->
+                <article class="card__protocol">
+                    <header class="card__header">
+                        <img src="https://camo.githubusercontent.com/e50a038a615d9b37a01b2998da776873e4aa5c5c8375f9cac092a1d7e559921f/68747470733a2f2f756361726563646e2e636f6d2f38613562373661372d353936392d343363392d623630652d6465386436323832346430392f6c6f72612532306c6f676f25323077686974652532307472616e73706172656e742e737667"
+                            alt="LoRa logo" />
+                        <h3>LoRa</h3>
+                    </header>
+                    <p>A long-range, low-power communication protocol perfect for remote areas. Commonly used in
+                        telemetry, environmental monitoring, and precision agriculture.</p>
+                    <a class="btn__card">See more!</a>
+                </article>
+
+                <!-- Zigbee -->
+                <article class="card__protocol">
+                    <header class="card__header">
+                        <img src="https://camo.githubusercontent.com/0fb52b62b1946d61c79190e14f047d7aebd8119f0596f4d8a937fb3eaaf509cb/68747470733a2f2f696d672e69636f6e73382e636f6d2f3f73697a653d3531322669643d383031363826666f726d61743d706e67"
+                            alt="Zigbee logo" />
+                        <h3>Zigbee</h3>
+                    </header>
+                    <p>A short-range mesh network protocol based on the IEEE 802.15.4 standard. Widely used in smart
+                        home automation and energy-efficient smart devices.</p>
+                    <a class="btn__card">See more!</a>
+                </article>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__inner">
+            <div class="footer__brand">
+                <img src="https://i.ibb.co/F4mK31Cg/Bifrost-Ideia-3.png" alt="Bifrost logo" class="footer__logo">
+            </div>
+
+            <nav class="footer__nav">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#how-it-works">How&nbsp;it&nbsp;Works</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="https://github.com/the-bifrost" target="_blank" rel="noopener">GitHub</a></li>
+                </ul>
+            </nav>
+
+            <nav class="footer__nav">
+                <h4>Protocols</h4>
+                <ul>
+                    <li><a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp-now.html"
+                            target="_blank">ESP-NOW</a></li>
+                    <li><a href="https://mqtt.org/documentation" target="_blank">MQTT</a></li>
+                    <li><a href="https://lora-alliance.org" target="_blank">LoRa</a></li>
+                    <li><a href="https://zigbeealliance.org" target="_blank">Zigbee</a></li>
+                </ul>
+            </nav>
+
+            <div class="footer__contact">
+                <h4>Connect</h4>
+                <ul class="social">
+                    <li><a href="https://twitter.com/yourhandle" aria-label="Twitter"><i
+                                class="fa-brands fa-x-twitter"></i></a></li>
+                    <li><a href="https://linkedin.com/company/yourcompany" aria-label="LinkedIn"><i
+                                class="fa-brands fa-linkedin-in"></i></a></li>
+                    <li><a href="mailto:contact@bifrost.io" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                    </li>
+                </ul>
+                <address>
+                    <span>Bifrost Labs</span><br>
+                    Horizontina · Rio Grande do Sul · Brazil
+                </address>
+            </div>
+        </div>
+
+        <div class="footer__bottom">
+            <span>© 2025 Bifrost — MIT License</span>
+            <span class="footer__status">🚧 In active development</span>
+        </div>
+    </footer>
+
+    <script>
+        // Registrar o plugin ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Função para animar elementos vindo da esquerda
+        function animateFromLeft(elementClass) {
+            gsap.from(elementClass, {
+                x: -100,
+                opacity: 0,
+                duration: 1.5,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: elementClass,
+                    start: "top 80%",
+                    end: "bottom top",
+                    toggleActions: "play none none reverse",
+                },
+            });
+        }
+
+        // Função para animação de fade-in
+        function animateFadeIn(elementClass) {
+            gsap.from(elementClass, {
+                opacity: 0,
+                duration: 1.5,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: elementClass,
+                    start: "top 80%",
+                    end: "bottom top",
+                    toggleActions: "play none none reverse",
+                }
+            });
+        }
+
+        // Função para animação de escala
+        function animateScaleIncrease(elementClass) {
+            gsap.from(elementClass, {
+                scale: 0.9,
+                opacity: 0,
+                duration: 1.5,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: elementClass,
+                    start: "top 80%",
+                    end: "bottom top",
+                    toggleActions: "play none none reverse",
+                }
+            });
+        }
+
+        // Função para animar elementos vindo da direita
+        function animateFromRight(elementClass) {
+            gsap.from(elementClass, {
+                x: 100,
+                opacity: 0,
+                duration: 1.5,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: elementClass,
+                    start: "top 80%",
+                    end: "bottom top",
+                    toggleActions: "play none none reverse",
+                },
+            });
+        }
+
+        // Função para animação de entrada com delay para cada item
+        function animateStaggeredFadeIn(elementClass, delay = 0.2) {
+            gsap.from(elementClass, {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                stagger: delay,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: elementClass,
+                    start: "top 85%",
+                    end: "bottom top",
+                    toggleActions: "play none none reverse",
+                }
+            });
+        }
+
+        // Função para o efeito de digitação
+        function initTypingEffect(elementId, words, typingSpeed = 100, deleteSpeed = 40, pauseDuration = 2000) {
+            const animatedTextElement = document.getElementById(elementId);
+            let wordIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            function typeEffect() {
+                const currentWord = words[wordIndex];
+
+                // Lógica de digitação e apagamento
+                if (isDeleting) {
+                    charIndex--;
+                } else {
+                    charIndex++;
+                }
+
+                animatedTextElement.innerHTML = currentWord.substring(0, charIndex);
+
+                // Transição entre escrever e apagar
+                if (!isDeleting && charIndex === currentWord.length) {
+                    setTimeout(() => (isDeleting = true), pauseDuration); // Pausa antes de apagar
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % words.length; // Próxima palavra
+                }
+
+                // Controle da velocidade
+                const speed = isDeleting ? deleteSpeed : typingSpeed;
+                setTimeout(typeEffect, speed);
+            }
+
+            typeEffect(); // Iniciar a animação
+        }
+
+        // Animação do scroll mouse (hero section)
+        function animateMouseScroll() {
+            const mouse = document.querySelector('.mouse');
+            if (mouse) {
+                gsap.to(mouse, {
+                    y: 10,
+                    repeat: -1,
+                    yoyo: true,
+                    duration: 0.8,
+                    ease: "power1.inOut"
+                });
+            }
+        }
+
+        // Menu Burger
+        function setupMenuBurger() {
+            const burger = document.getElementById('burger');
+            const nav = document.querySelector('nav');
+
+            burger.addEventListener('click', () => {
+                burger.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+        }
+
+        // Animação de background elements
+        function animateBackgroundElements() {
+            gsap.to('.bg-1', {
+                x: 50,
+                y: 50,
+                duration: 15,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+
+            gsap.to('.bg-2', {
+                x: -50,
+                y: -50,
+                duration: 20,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        }
+
+        // Inicializar todas as animações quando o DOM estiver pronto
+        document.addEventListener("DOMContentLoaded", () => {
+            // Menu burger
+            setupMenuBurger();
+
+            // Efeito de digitação no hero
+            initTypingEffect("animated-text", ["Solutions", "Possibilities", "Devices", "Worlds"]);
+
+            // Animação do mouse scroll
+            animateMouseScroll();
+
+            // Hero section
+            animateScaleIncrease(".content__hero");
+            animateFadeIn(".text__hero");
+            animateFadeIn(".btn__hero");
+
+            // Vision section
+            animateFromLeft(".vision");
+
+            // Timeline: milestones
+            animateStaggeredFadeIn(".milestone", 0.3);
+
+            // Protocols section
+            animateFadeIn(".protocols__title");
+            animateStaggeredFadeIn(".card__protocol", 0.2);
+
+            // Footer
+            animateFadeIn(".footer__inner");
+
+            // Background animations
+            animateBackgroundElements();
+        });
+    </script>
+</body>
+
+</html>
