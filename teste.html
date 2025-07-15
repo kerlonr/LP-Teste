@@ -39,7 +39,7 @@
         }
 
         /* Header */
-        header {
+        body>header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -369,7 +369,7 @@
 
         .grid__protocols {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(2, minmax(300px, 1fr));
             gap: 30px;
             max-width: 1300px;
             margin: 0 auto;
@@ -382,12 +382,11 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            transform: translateY(20px);
-            opacity: 0;
+            transform: translateY(1px);
         }
 
         .card__protocol:hover {
-            transform: translateY(-10px);
+            transform: translateY(-1px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
 
@@ -431,6 +430,7 @@
 
         .btn__card:hover {
             background: rgba(52, 152, 219, 0.4);
+            cursor: pointer;
         }
 
         /* Footer */
@@ -510,6 +510,7 @@
             display: flex;
             gap: 15px;
             margin-bottom: 25px;
+            list-style: none;
         }
 
         .social a {
@@ -1104,8 +1105,8 @@
             animateStaggeredFadeIn(".milestone", 0.3);
 
             // Protocols section
-            animateFadeIn(".protocols__title");
-            animateStaggeredFadeIn(".card__protocol", 0.2);
+            //animateFadeIn(".protocols__title");
+            //animateStaggeredFadeIn(".card__protocol", 0.2);
 
             // Footer
             animateFadeIn(".footer__inner");
